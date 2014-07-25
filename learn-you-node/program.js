@@ -47,6 +47,7 @@ fs.readdir(process.argv[2], function(err, list){
 */
 
 // 6
+/*
 var mymodule = require("./mymodule");
 
 mymodule(process.argv[2], process.argv[3], function(err, list){
@@ -59,4 +60,81 @@ mymodule(process.argv[2], process.argv[3], function(err, list){
   }
 
 });
+*/
+
+// 7
+/*
+var http = require('http');
+
+http.get(process.argv[2], function(response){
+  response.setEncoding('utf8');
+  response.on("data", function(data){
+    console.log(data);
+  });
+});
+*/
+
+// 8
+/*
+var http = require("http");
+var concatStream = require("concat-stream");
+
+http.get(process.argv[2], function(response){
+  response.setEncoding('utf8');
+  response.pipe(concatStream(function(data){
+    console.log(data.length);
+    console.log(data);
+  }));
+});
+*/
+
+// 9
+/*
+var http = require("http");
+var concatStream = require("concat-stream");
+
+http.get(process.argv[2], function(response){
+  response.setEncoding('utf8');
+  response.pipe(concatStream(function(data){
+    console.log(data);
+
+    http.get(process.argv[3], function(response){
+      response.setEncoding('utf8');
+      response.pipe(concatStream(function(data){
+        console.log(data);
+
+        http.get(process.argv[4], function(response){
+          response.setEncoding('utf8');
+          response.pipe(concatStream(function(data){
+            console.log(data);
+          }));
+        });
+      }));
+    });
+  }));
+});
+*/
+
+// 10
+/*
+var net = require("net");
+var strftime = require("strftime");
+
+var server = net.createServer(function(socket){
+  var current = new Date();
+  var year = current.getFullYear();
+  var month = current.getMonth();
+  var day = current.getDate();
+  var hour = current.getHours();
+  var minute = current.getMinutes();
+
+  //socket.write(year+"-"+month+"-"+day+" "+hour+":"+minute+"\n"+);
+  socket.write(strftime('%F %R', new Date()) + "\n");
+  socket.end();
+});
+server.listen(process.argv[2]);
+*/
+
+// 11
+
 
