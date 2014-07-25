@@ -116,7 +116,7 @@ http.get(process.argv[2], function(response){
 */
 
 // 10
-/*
+
 var net = require("net");
 var strftime = require("strftime");
 
@@ -128,12 +128,11 @@ var server = net.createServer(function(socket){
   var hour = current.getHours();
   var minute = current.getMinutes();
 
-  //socket.write(year+"-"+month+"-"+day+" "+hour+":"+minute+"\n"+);
   socket.write(strftime('%F %R', new Date()) + "\n");
   socket.end();
 });
 server.listen(process.argv[2]);
-*/
+
 
 // 11
 
