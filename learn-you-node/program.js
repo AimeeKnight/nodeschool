@@ -68,9 +68,11 @@ var http = require('http');
 
 http.get(process.argv[2], function(response){
   response.setEncoding('utf8');
-  response.on("data", function(data){
-    console.log(data);
-  });
+  //response.on("data", function(data){
+    //console.log(data);
+  //});
+  response.on('data', console.log)
+  response.on('error', console.error)
 });
 */
 
@@ -122,14 +124,15 @@ var strftime = require("strftime");
 
 var server = net.createServer(function(socket){
   var current = new Date();
-  var year = current.getFullYear();
-  var month = current.getMonth();
-  var day = current.getDate();
-  var hour = current.getHours();
-  var minute = current.getMinutes();
+  //var year = current.getFullYear();
+  //var month = current.getMonth();
+  //var day = current.getDate();
+  //var hour = current.getHours();
+  //var minute = current.getMinutes();
 
-  socket.write(strftime('%F %R', new Date()) + "\n");
-  socket.end();
+  socket.end(strftime('%F %R', new Date()) + "\n");
+  //socket.write(strftime('%F %R', new Date()) + "\n");
+  //socket.end();
 });
 server.listen(process.argv[2]);
 */
@@ -140,10 +143,11 @@ var http = require('http');
 var fs = require('fs');
 
 var server = http.createServer(function(request, response){
-  var readStream = fs.createReadStream(process.argv[3]);
-  readStream.on('open', function(){
-    readStream.pipe(response);
-  });
+  //var readStream = fs.createReadStream(process.argv[3]);
+  //readStream.on('open', function(){
+    //readStream.pipe(response);
+  //});
+  fs.createReadStream(process.argv[3]).pipe(response)
 });
 server.listen(process.argv[2]);
 */
@@ -155,6 +159,9 @@ var map = require('through2-map');
 var fs = require('fs');
 
 var server = http.createServer(function(request, response){
+  if (request.method != "POST") {
+    return response.end("send me a POST please!");
+  }
 
   if (request.method == "POST") {
     request.pipe(map(function (chunk){
@@ -167,7 +174,7 @@ server.listen(process.argv[2]);
 */
 
 // 13
-/*
+
 var http = require('http');
 var url = require('url');
 
@@ -196,7 +203,7 @@ var server = http.createServer(function(request, response){
 
 });
 server.listen(process.argv[2]);
-*/
+
 
 
 
