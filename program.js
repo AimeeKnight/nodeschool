@@ -58,6 +58,65 @@ function reduce(arr, fn, initial) {
   })(0, initial);
 }
 
-module.exports = reduce;
+// Call
 
+function duckCount() {
+  function countDuck(args, index, total) {
+    var current = args[index];
+    if (index >= args.length) {
+      return total.length;
+    } else if (Object.prototype.hasOwnProperty.call(current, "quack")) {
+      total.push(current);
+    }
+    return countDuck(args, index+=1, total)
+  }
+  return countDuck(arguments, 0, [])
+}
 
+function duckCount2() {
+  return Array.prototype.slice.call(arguments).filter(function(obj) {
+    return Object.prototype.hasOwnProperty.call(obj, 'quack')
+  }).length
+}
+
+// Partial Application without Bind
+
+var slice = Array.prototype.slice
+
+function logger(namespace) {
+  return function(args) {
+    var array1 = slice.call(arguments);
+    var combined = [namespace].concat(array1);
+    console.log.apply(console, combined)
+  }
+}
+
+// Partial Application with Bind
+function loggerWithBind(namespace) {
+  return console.log.bind(console, namespace)
+}
+
+// Implement Map with Reduce
+
+function arrayMap(arr, fn) {
+  return arr.reduce(function(previousValue, currentValue) {
+    var temp = fn(currentValue);
+    return previousValue.concat(temp);
+  }, []);
+}
+
+// Function Spies
+
+function Spy(target, method) {
+  var originalFunction = target[method];
+  var result = {
+    count: 0
+  };
+  target[method] = function() {
+    result.count++;
+    return originalFunction.apply(this, arguments);
+  }
+  return result;
+}
+
+module.exports = Spy;
