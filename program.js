@@ -114,9 +114,26 @@ function Spy(target, method) {
   };
   target[method] = function() {
     result.count++;
+    // target or this is OK
+    // Inside 'target[method]' this is the same object as target
     return originalFunction.apply(this, arguments);
   }
   return result;
 }
 
-module.exports = Spy;
+// Blocking Event Loop
+
+function repeat(operation, num) {
+  if (num <= 0) return;
+  operation();
+
+  if (num % 10 === 0) {
+    setTimeout(function(){
+      return repeat(operation, --num)
+    });
+  } else {
+    return repeat(operation, --num)
+  }
+}
+
+module.exports = repeat;
